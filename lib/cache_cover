@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+function cache-cover() {
+	local CACHE="$1"
+
+	[[ -z "$CACHE" ]] && return 1
+
+	local ARTIST=`cat $CACHE/ARTIST`
+	local ALBUM=`cat $CACHE/ALBUM`
+	local COVER="$CACHE/${ARTIST} - ${ALBUM}.jpg"
+
+	[[ -r "$COVER" ]] || ffmpeg -i "$HOME/data/mus/`mpc --format %file% | head -1`" -vf scale=120:108 "$COVER" 2>/dev/null
+	
+	return 0
+}

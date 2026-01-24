@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+function metadata-notify() {
+	local CACHE="$1"
+	local ID="$2"
+
+	[ -d "$CACHE" ] || return 1
+	[ -n "$ID"    ] || return 2
+
+	local ARTIST=`cat $CACHE/ARTIST` 
+	local ALBUM=`cat $CACHE/ALBUM` 
+	local COVER="$CACHE/${ARTIST} - ${ALBUM}.jpg"
+	local PERCENT=`cat $CACHE/PERCENT` 
+	local STATUS=`cat $CACHE/STATUS`
+	local TIME=`cat $CACHE/TIME` 
+	local TITLE=`cat $CACHE/TITLE` 
+
+	dunstify -i "$COVER" -r $ID -h int:id:$ID -h int:value:$PERCENT "${STATUS^}: " "Title: ${TITLE}\nAlbum: ${ALBUM}\nArtist: ${ARTIST}\n${TIME}"
+}

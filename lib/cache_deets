@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+function get-metadata() {
+	local CACHE="$1"
+	local IFS=$'\n'
+	local -a metadata=(`mpc --format "%artist%\n%album%\n%title%|head -4"`)
+
+	printf "${metadata[0]}" > $CACHE/ARTIST
+	printf "${metadata[1]}" > $CACHE/ALBUM
+	printf "${metadata[2]}" > $CACHE/TITLE
+	echo -e "${metadata[3]}"| awk '{print $3}' > $CACHE/TIME
+	echo -e "${metadata[3]}"| awk -F'\\(|%' '{print $2}' > $CACHE/PERCENT
+	echo -e "${metadata[3]}"| awk -F'\\[|\\]' '{print $2}' > $CACHE/STATUS
+}

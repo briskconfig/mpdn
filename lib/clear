@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+function clear-notification() {
+	[ -n "$1" ] || return 1
+
+	dunstify -C "$1"
+}

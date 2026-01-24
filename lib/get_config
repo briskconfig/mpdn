@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+function get-config() {
+	local property="$1" 
+
+	[[ -n "$XDG_CONFIG_HOME" ]]                       \
+		&& export mpdcfg="$XDG_CONFIG_HOME/mpdn" \
+		|| export mpdcfg="$HOME/.config/mpdn"
+
+	grep "${property}:" "${mpdcfg}/config.yml" | awk -F': +' '{print $NF}'
+}
