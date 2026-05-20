@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+source "$(dirname `realpath $0`)/cache_cover"
+source "$(dirname `realpath $0`)/get_metadata"
+source "$(dirname `realpath $0`)/metadata_notify"
+
+function update-notification() {
+	local CACHE="$1" 
+	local ID="$2"
+
+	cache-cover "$CACHE"
+	get-metadata "$CACHE"
+	metadata-notify "$CACHE" "$ID"
+}

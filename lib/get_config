@@ -4,8 +4,8 @@ function get-config() {
 	local property="$1" 
 
 	[[ -n "$XDG_CONFIG_HOME" ]]                       \
-		&& export mpdcfg="$XDG_CONFIG_HOME/mpdn" \
-		|| export mpdcfg="$HOME/.config/mpdn"
+		&& export mpdcfg="$XDG_CONFIG_HOME/mpd_notify" \
+		|| export mpdcfg="$HOME/.config/mpd_notify"
 
 	grep "${property}:" "${mpdcfg}/config.yml" | awk -F': +' '{print $NF}'
 }

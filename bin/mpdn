@@ -1,45 +1,5 @@
 #!/usr/bin/env bash
 
-function check-notification() {
-	[[ $# -ne 2 ]] && return 4
-
-	for tdx in $(seq 0 1 3)
-	do
-		update-notification "$1" "$2"
-		sleep 1
-	done
-
-	clear-notification "$ID"
-	return $?
-}
-
-function playback-notification() {
-	[[ $# -ne 2 ]] && return 4
-
-	local status=`cat ${1}/STATUS`
-
-	if [[ "$status" == "playing" ]]
-	then
-		mpc pause &>/dev/null &
-		update-notification "${1}" "${2}"
-	elif [[ "$status" == "paused" ]]
-	then
-		mpc play &>/dev/null & 
-		check-notification "$1" "$2" &
-	else
-		dunstify -r "$2" -h int:id:$2 -u critical "Failed:" "MPD is neither playing nor paused."
-	fi
-
-}
-
-function update-notification() {
-	local CACHE="$1" 
-	local ID="$2"
-
-	get-metadata "$CACHE"
-	cache-cover "$CACHE"
-	metadata-notify "$CACHE" "$ID"
-}
 
 function help-text() {
 	cat << :
@@ -53,15 +13,19 @@ Usage: mpdn [chknpP]
 :
 }
 
+
 function main() {
 	local here=$(dirname `realpath $0`)
 	local OPTARG OPTIND opts
 
 	source ${here}/../lib/cache_cover
 	source ${here}/../lib/cache_deets
+	source ${here}/../lib/check_notification
 	source ${here}/../lib/clear
 	source ${here}/../lib/get_config
 	source ${here}/../lib/notify
+	source ${here}/../lib/playback_notification
+	source ${here}/../lib/update_notification
 
 	local CACHE=`get-config cache`
 	local ID=`get-config dunst_id`

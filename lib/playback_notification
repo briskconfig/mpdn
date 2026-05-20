@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+source "$(dirname `realpath $0`)/../lib/check_notification"
+source "$(dirname `realpath $0`)/../lib/update_notification"
+
+function playback-notification() {
+	[[ $# -ne 2 ]] && return 4
+
+	local status=`cat ${1}/STATUS`
+
+	if [[ "$status" == "playing" ]]
+	then
+		mpc pause &>/dev/null &
+		update-notification "${1}" "${2}"
+	elif [[ "$status" == "paused" ]]
+	then
+		mpc play &>/dev/null & 
+		check-notification "$1" "$2" &
+	else
+		dunstify -r "$2" -h int:id:$2 -u critical "Failed:" "MPD is neither playing nor paused."
+	fi
+}

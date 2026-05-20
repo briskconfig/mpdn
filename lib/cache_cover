@@ -9,7 +9,7 @@ function cache-cover() {
 	local ALBUM=`cat $CACHE/ALBUM`
 	local COVER="$CACHE/${ARTIST} - ${ALBUM}.jpg"
 
-	[[ -r "$COVER" ]] || ffmpeg -i "$HOME/data/mus/`mpc --format %file% | head -1`" -vf scale=120:108 "$COVER" 2>/dev/null
+	[[ -r "$COVER" ]] || ffmpeg -i "/data/`mpc --format %file% | head -1`" -vf scale=120:108 "$COVER" 2>/dev/null
 	
 	return 0
 }

@@ -9,6 +9,6 @@ function get-metadata() {
 	printf "${metadata[1]}" > $CACHE/ALBUM
 	printf "${metadata[2]}" > $CACHE/TITLE
 	echo -e "${metadata[3]}"| awk '{print $3}' > $CACHE/TIME
-	echo -e "${metadata[3]}"| awk -F'\\(|%' '{print $2}' > $CACHE/PERCENT
-	echo -e "${metadata[3]}"| awk -F'\\[|\\]' '{print $2}' > $CACHE/STATUS
+	echo -e "${metadata[*]}"| grep -o '([[:digit:]]\+%)'        | awk -F'\\(|%' '{print $2}' > $CACHE/PERCENT
+	echo -e "${metadata[*]}"| grep -o '\[paused\]\|\[playing\]' | sed -e 's/\[//g' -e 's/\]//g' > $CACHE/STATUS
 }
