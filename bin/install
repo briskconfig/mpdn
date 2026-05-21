@@ -3,8 +3,8 @@
 function mpdn-install() {
 	[[ `curl --help 2>/dev/null` ]] || return 3
 	
-	local checksum='06e03ff89c1384d11b924e1dab0a40b8'
-	local url='https://github.com/briskconfig/mpdn/releases/download/1.0.0/mpdn_v1.0.0.txz'
+	local checksum='a66022d10e2cc530e7c8ee7b38c595f2'
+	local url='https://github.com/briskconfig/mpdn/releases/download/1.0.1/mpdn_v1.0.1.txz'
 	local XH=${XDG_CONFIG_HOME:=$HOME/.config}
 	local payload=$(mktemp) || return 3
 	local target="/usr/bin/mpdn"
