@@ -11,6 +11,10 @@ __Dependencies:__
     - `mpd`  
 
 __Install:__  
+Script: `curl -#L https://github.com/briskconfig/mpdn/raw/refs/heads/release/bin/install | bash`  
+
+__OR__
+
 1. Clone this repository to `$XDG_CONFIG_HOME/mpdn` or `$HOME/.config/mpdn`  
 2. Link the executable to `$PATH`:  
     - `ln -si $XDG_CONFIG_HOME/mpdn/bin/mpdn $HOME/.local/bin/mpdn`  
