@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source "$(dirname `realpath $0`)/../lib/check_notification"
-source "$(dirname `realpath $0`)/../lib/update_notification"
 
 function playback-notification() {
 	[[ $# -ne 2 ]] && return 4
