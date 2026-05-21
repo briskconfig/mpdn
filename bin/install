@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+function mpdn-install() {
+	[[ `curl --help 2>/dev/null` ]] || return 3
+	
+	local checksum='06e03ff89c1384d11b924e1dab0a40b8'
+	local url='https://github.com/briskconfig/mpdn/releases/download/1.0.0/mpdn_v1.0.0.txz'
+	local XH=${XDG_CONFIG_HOME:=$HOME/.config}
+	local payload=$(mktemp) || return 3
+	
+	curl -#Lo "$payload" "$url"
+	[[ `md5sum -b "$payload" | awk '{print $1}'` == $checksum ]] || { rm "$payload"; return 2; }
+	[[ -d "$XH/mpdn" ]] || mkdir -pv "$XH/mpdn"
+	tar -xJf "$payload" -C "$XH/mpdn"
+	
+	rm "$payload"
+}
+
+mpdn-install
