@@ -7,11 +7,15 @@ function mpdn-install() {
 	local url='https://github.com/briskconfig/mpdn/releases/download/1.0.0/mpdn_v1.0.0.txz'
 	local XH=${XDG_CONFIG_HOME:=$HOME/.config}
 	local payload=$(mktemp) || return 3
+	local target="/usr/bin/mpdn"
 	
 	curl -#Lo "$payload" "$url"
 	[[ `md5sum -b "$payload" | awk '{print $1}'` == $checksum ]] || { rm "$payload"; return 2; }
 	[[ -d "$XH/mpdn" ]] || mkdir -pv "$XH/mpdn"
 	tar -xJf "$payload" -C "$XH/mpdn"
+
+	[[ -d "$HOME/.local/bin" ]] && target="$HOME/.local/bin/mpdn"
+	ln -sf $XH/mpdn/bin/mpdn "$target"
 	
 	rm "$payload"
 }
